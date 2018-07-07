@@ -1,7 +1,7 @@
 # JetPack-Navigation
 Android JetPack is a set of android components designed with Kotlin in mind, available with Android Studio 3.2.<br>
 This library provode major 4 component <br> <br>
-Navigation <br> 
+ Navigation <br> 
 DataMnager <br>
 Slice <br>
 Paging <br>
@@ -65,6 +65,51 @@ getSupportFragmentManager().replaceFragment(R.id.maincontainer,new YourFragment(
             
             val navController = view.findNavController()
             navController.navigate(R.id.signUpFragment,bundle)
-            
-            
-more details 
+        
+        
+   <h2>Developers Importent Point</h2> <br> 
+   
+   If you want Maintain fragment backstack then override this method in your MainActivity
+   
+    override fun onSupportNavigateUp()=findNavController(R.id.mainNavigationFragment).navigateUp()
+
+   If you want  not maintain the backstack specific fragment then you add one line of code in navigation_graph like..
+     
+  ```   
+   <fragment
+       android:id="@+id/fragmentSecvond"
+       android:name="com.samset.jetpacknavigation.fragments.FragmentSecond"
+       android:label="fragment_fragment_secvond"
+       tools:layout="@layout/fragment_fragment_secvond">
+          <argument
+           android:name="mydata"
+           android:defaultValue="defaulttext"
+           app:type="string" />
+          <action
+           android:id="@+id/action_fragmentSecvond_to_fragmentThird"
+           app:clearTask="true"   //** add this line for clear backstack **
+           app:destination="@id/fragmentThird" />
+    </fragment>
+    
+   ```
+You can also be change the action "Pop To" behavior from attribute pannel( from xml app:popUpTo="@+id/FragmentOne). This way when user will click back, he will be navigated to FragmentOne instead of the original destination.
+   
+     <fragment
+       android:id="@+id/fragmentThird"
+       android:name="com.samset.jetpacknavigation.fragments.FragmentThird"
+       android:label="fragment_fragment_third"
+       tools:layout="@layout/fragment_fragment_third">
+         <action
+          android:id="@+id/action_fragmentThird_to_fragmentFourth"
+          app:destination="@id/fragmentFourth" />
+         <action
+          app:popUpTo="@id/action_fragmentSecond" // <b>.add this line and change pop to destination</b>
+          android:id="@+id/action_fragmentThird_to_fragmentOne"
+          app:destination="@id/fragmentOne" />
+    </fragment>
+
+
+   
+ 
+   
+more details [Blog Pages](http://samsetdev.blogspot.com/2018/07/jetpack-navigation.html). 
